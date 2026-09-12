@@ -16,5 +16,7 @@ app.use((err:any,_req:any,res:any,_next:any) => {
 });
 
 connectDb().then(() => {
-  app.listen(config.port, () => console.log(`API listening on ${config.port}`));
+  app.listen(config.port, "0.0.0.0", () =>
+  console.log(`API listening on ${config.port}`)
+);
 });

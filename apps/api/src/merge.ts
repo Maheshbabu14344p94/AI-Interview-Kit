@@ -1,9 +1,38 @@
-import type { Kit } from "@ai-prep/shared";
+import type { Question } from "@ai-prep/shared";
 
-export type EntityMeta = { origin?: "generated"|"user"; edit_state?: "clean"|"edited"; pinned?: boolean; version?: number };
+type EditableQuestion = Question & {
+  origin?: "generated" | "user";
+  edit_state?: "clean" | "edited";
+  pinned?: boolean;
+};
 
-export function mergeQuestions(previous: (Kit["questions"] & EntityMeta)[], next: Kit["questions"]) {
-  const locked = new Map(previous.filter(q => q.origin === "user" || q.edit_state === "edited" || q.pinned).map(q => [q.id, q]));
-  const generated = next.filter(q => !locked.has(q.id));
-  return [...locked.values(), ...generated];
+export function mergeGeneratedQuestions(
+  previous: EditableQuestion[],
+  generated: Question[]
+): Question[] {
+  const locked = new Map<string, EditableQuestion>(
+    previous
+      .filter(
+        (q) =>
+          q.origin === "user" ||
+          q.edit_state === "edited" ||
+          q.pinned === true
+      )
+      .map((q) => [q.id, q])
+  );
+
+  return generated.map((question) => {
+    const existing = locked.get(question.id);
+
+    if (!existing) {
+      return question;
+    }
+
+    return {
+      ...question,
+      prompt: existing.prompt,
+      answer_outline: existing.answer_outline,
+      difficulty: existing.difficulty,
+    };
+  });
 }

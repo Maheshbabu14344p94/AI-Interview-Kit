@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07080d;
+  --panel: #0d1018;
+  --panel2: #111521;
+  --border: rgba(255,255,255,.09);
+  --muted: #8b93a7;
+  --text: #eef1f7;
+  --accent: #8b7cff;
+  --accent2: #54d9ff;
+  --good: #54d49b;
+  --warn: #f5b95d;
+  --danger: #ff6f7d;
+}
+* { box-sizing: border-box; }
+html,body { margin:0; min-height:100%; background:var(--bg); color:var(--text); }
+body { font-family: Arial, Helvetica, sans-serif; }
+button,input,textarea { font:inherit; }
+button { cursor:pointer; }
+::selection { background: rgba(139,124,255,.35); }
+.glow-bg {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(139,124,255,.14), transparent 35%),
+    radial-gradient(circle at 90% 10%, rgba(84,217,255,.10), transparent 30%),
+    linear-gradient(180deg,#080a10,#07080d);
+}
+.grid-bg {
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size: 40px 40px;
+}
+.panel { background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018)); border:1px solid var(--border); box-shadow:0 18px 60px rgba(0,0,0,.22); }
+.text-muted { color:var(--muted); }
+.accent-gradient { background:linear-gradient(100deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.focus-ring:focus-visible { outline:2px solid var(--accent2); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
